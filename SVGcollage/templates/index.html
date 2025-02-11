@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css">
+    <title>SVGcollage</title>
+</head>
+
+<body>
+    <div class="myContainer">
+        <div class="canvas-container">
+            <canvas id="canvas"></canvas>
+            <div class="tool" id="tool">
+                <div class="btn-container" id="btn-container">
+                    <button id="write-btn" type="button" class="btn btn-primary editBtn"><i
+                            class="bi bi-pencil-square"></i></button>
+                    <button id="paint-btn" type="button" class="btn btn-primary editBtn"><i
+                            class="bi bi-brush-fill"></i></button>
+                    <button id="erase-btn" type="button" class="btn btn-primary editBtn"><i
+                            class="bi bi-eraser-fill"></i></button>
+                    <button id="clean-btn" type="button" class="btn btn-danger editBtn"><i
+                            class="bi bi-trash3-fill"></i></button>
+                    <button id="export-btn" type="button" class="btn btn-success editBtn"><i
+                            class="bi bi-check-lg"></i></button>
+                </div>
+                <div class="range-container" id="paint-range-container">
+                    <span class="range-text">Painting Size</span>
+                    <input type="range" class="range" id="paint-range" value="30" min="10" max="100" step="1"
+                        onchange="changeRange3()">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="toolbar">
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio" id="group1" autocomplete="off" checked>
+                <label class="btn btn-outline-primary toolbar-switch-btn" for="group1"
+                    id="mask-switch-btn">MASK</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="group2" autocomplete="off">
+                <label class="btn btn-outline-primary toolbar-switch-btn" for="group2"
+                    id="svg-switch-btn">SVG</label>
+
+            </div>
+            <div class="mask-edit-container" id="mask-edit-container">
+                <div class="blue-border-container">
+                    <span class="title">draw mask</span>
+                    <span id="editing-text" class="editing-text">editing</span>
+                    <button type="button" id="editing-mask-btn" class="btn btn-light square-container">
+                        <i class="bi bi-pencil-square"></i>
+                    </button>
+                </div>
+
+                <div class="blue-border-container">
+                    <span class="title">upload mask</span>
+                    <button type="button" id="upload-mask-btn" class="btn btn-light square-container">
+                        <i class="bi bi-plus-square-dotted"></i>
+                        <input type="file" class ="hidden-input" id="upload-mask-input">
+                    </button>
+                </div>
+
+
+
+            </div>
+            <div class="svg-edit-container" id="svg-edit-container">
+                <div class="blue-border-container">
+                    <span class="title">select svgs</span>
+                    <div class="svg-list">
+                        <button class="svg-container" svg="animal"><img src="static/image/example1.png">
+                            <i class="bi bi-check-circle-fill svgConfirmIcon"></i></button>
+                        <button class="svg-container" svg="basic"><img src="static/image/example2.png">
+                            <i class="bi bi-check-circle-fill svgConfirmIcon"></i></button>
+                        <button class="svg-container" svg="christmas"><img src="static/image/example3.png">
+                            <i class="bi bi-check-circle-fill svgConfirmIcon"></i></button>
+                        <button class="svg-container" svg="circle"><img src="static/image/example4.png">
+                            <i class="bi bi-check-circle-fill svgConfirmIcon"></i></button>
+                        <button class="svg-container" svg="flowers"><img src="static/image/example5.png">
+                            <i class="bi bi-check-circle-fill svgConfirmIcon"></i></button>
+                        <button class="svg-container" svg="heart"><img src="static/image/example6.png">
+                            <i class="bi bi-check-circle-fill svgConfirmIcon"></i></button>
+                        <button class="svg-container" svg="leaves"><img src="static/image/example7.png">
+                            <i class="bi bi-check-circle-fill svgConfirmIcon"></i></button>
+                        <button class="svg-container" svg="party"><img src="static/image/example8.png">
+                            <i class="bi bi-check-circle-fill svgConfirmIcon"></i></button>
+                        <button class="svg-container" svg="drop"><img src="static/image/example9.png">
+                            <i class="bi bi-check-circle-fill svgConfirmIcon"></i></button>
+                        <button class="svg-container" svg="yellow"><img src="static/image/example10.png">
+                            <i class="bi bi-check-circle-fill svgConfirmIcon"></i></button>
+                        <button class="svg-container" svg="letter1"><img src="static/image/example11.png">
+                            <i class="bi bi-check-circle-fill svgConfirmIcon"></i></button>
+                    </div>
+                </div>
+
+
+                <div class="blue-border-container">
+                    <span class="title">upload svgs</span>
+                    <button type="button" id="upload-svg-btn" class="btn btn-light square-container">
+                        <i class="bi bi-plus-square-dotted"></i>
+                        <input type="file"class ="hidden-input" id="upload-svg-input">
+                    </button>
+                </div>
+            </div>
+
+            <div class="submit-conainer">
+                <div class="range-container">
+                    <span class="range-text" id="num-range-text">SVG_NUM: 100</span>
+                    <input type="range" class="range" id="num-range" value="100" min="50" max="300" step="1"
+                        onchange="changeRange1()">
+                </div>
+                <div class="range-container">
+                    <span class="range-text" id="iteration-range-text">ITERATION: 250</span>
+                    <input type="range" class="range" id="iteration-range" value="250" min="100" max="500" step="1"
+                        onchange="changeRange2()">
+                </div>
+                <button type="button" id="confirm-btn" class="btn btn-success"><i class="bi bi-upload"></i></button>
+
+                <div class="confirmed-container" id="confirmed-container">
+                <div class="progress" id="progress" role="progressbar" aria-label="Animated striped example"
+                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%">0%</div> 
+                </div>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn review-btn" data-bs-toggle="modal" data-bs-target="#svg-modal">
+                    <i class="bi bi-question-circle"></i>
+                </button>
+                </div>
+                
+            </div>
+
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed top-0 start-0 p-3">
+        <div id="writeToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" autohide="true">
+            <div class="toast-header">
+                <strong class="me-auto">tips</strong>
+                <small> </small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                The edges are automatically closed,Please try to paint in consecutive strokes and form a closed shape
+            </div>
+        </div>
+
+        <div id="nullToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" autohide="true">
+            <div class="toast-header">
+                <strong class="me-auto">error!</strong>
+                <small> </small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Please check the input!
+            </div>
+        </div>
+        <div id="maskNullToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" autohide="true">
+            <div class="toast-header">
+                <strong class="me-auto">error!</strong>
+                <small> </small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                You're not drawing a mask!
+            </div>
+        </div>
+        <div id="generateToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" autohide="true">
+            <div class="toast-header">
+                <strong class="me-auto">error!</strong>
+                <small> </small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+            </div>
+        </div>
+    </div>
+
+    
+    
+    <!-- 模态框 -->
+    <div class="modal fade" id="svg-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content" class="modal-content" style="width: fit-content;height: fit-content;"> 
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">NOW</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="svg-modal-body" id="svg-modal-body" style="width: 650px;height: 650px;">
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script src="../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.min.js"></script>
+    <script src="../static/js/canvas.js"></script>
+    <script src="../static/js/toolbar.js"></script>
+    <script src="../static/js/main.js"></script>
+    
+    
+
+</body>
+
+</html>
